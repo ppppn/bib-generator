@@ -1,0 +1,7 @@
+"Category","Style"
+"eng_book","Author, ///Title///, Publisher, Pub_Year."
+"jpn_book","Author『Title』Pub_Loc、Pub_Year年。"
+"pp","Vol_and_Issue, ///Title///, Pub_Year."
+"eng_book_article","Author, “Title”, in: Editors, ///Journal_or_Book///, Pub_Year, Page."
+"jpn_book_article","Author、「Title」、Editors、『Journal_or_Book』、Pub_Year年、Page。"
+"jpn_journal_article","Author、「Title」、『Journal_or_Book』、Vol_and_Issue、Pub_Year年、Page。"
