@@ -8,15 +8,15 @@ import re
 from datetime import datetime
 from html_format import HTML_FORMAT
 
-def readStyles(style_csv_fname):
-    styles = {}
-    f = open(style_csv_fname, encoding='sjis')
+def readStyles(format_csv_fname):
+    formats = {}
+    f = open(format_csv_fname, encoding='sjis')
     reader = csv.reader(f)
     category_header = next(reader)[0]
-    for style_name, style in reader:
-        style = re.sub('{', '{0[', style)
-        styles[style_name] = re.sub('}', ']}', style)
-    return category_header, styles
+    for format_name, format in reader:
+        format = re.sub('{', '{0[', format)
+        formats[format_name] = re.sub('}', ']}', format)
+    return category_header, formats
 
 def readBibList(biblist_csv_fname):
     f = open(biblist_csv_fname, encoding='sjis')
@@ -31,30 +31,30 @@ def readBibList(biblist_csv_fname):
       bib_list.append(current_bib)
     return bib_list
 
-def applyStyleToBib(style, bib):
-    line = style.format(bib)
+def applyStyleToBib(format, bib):
+    line = format.format(bib)
     line = re.sub('///(.*)///', '<I>\\1</I>', line)
     return line
 
-def generateHTML(stylefname, biblistfname):
-    category_header, styles = readStyles(stylefname)
+def generateHTML(formatfname, biblistfname):
+    category_header, formats = readStyles(formatfname)
     biblist = readBibList(biblistfname)
     body = ''
     for current_bib in biblist:
-        selected_style = styles[current_bib.pop(category_header)]
-        body += applyStyleToBib(selected_style, current_bib) + '<BR/>\n'
+        selected_format = formats[current_bib.pop(category_header)]
+        body += applyStyleToBib(selected_format, current_bib) + '<BR/>\n'
     outputfile = open('result.html', 'w', encoding='utf-8')
     outputfile.write(HTML_FORMAT.format(bib_body=body,
                                         time_stamp=datetime.now()))
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('styles_csv_fname', action='store', nargs='?',
-                        const=None, default='styles.csv', type=str)
+    parser.add_argument('formats_csv_fname', action='store', nargs='?',
+                        const=None, default='formats.csv', type=str)
     parser.add_argument('biblist_csv_fname', action='store', nargs='?',
                         const=None, default='biblist.csv', type=str)
     args = parser.parse_args()
-    generateHTML(args.styles_csv_fname, args.biblist_csv_fname)
+    generateHTML(args.formats_csv_fname, args.biblist_csv_fname)
 
 
 if __name__ == '__main__':
